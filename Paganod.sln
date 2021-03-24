@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paganod.Application", "Paganod\Paganod.Application.csproj", "{146F3751-6F05-4B48-ABE5-CF6104324519}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{9BED2D2B-7F03-4BDC-BBB4-30BAA5F5A8B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{46648CDB-F068-4B0A-9D02-BA96A2A5992A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paganod.Shared", "Paganod.Shared\Paganod.Shared.csproj", "{214751DA-4A93-48D4-8833-CBA52AE2463B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{D09B9DAB-A79C-4D42-B60F-9932889B1369}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paganod.API", "Paganod.API\Paganod.API.csproj", "{93C6AB08-AA63-4F42-9D66-E3F4F5172BCC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paganod.Data", "Paganod.Data\Paganod.Data.csproj", "{04B2A4DE-6D81-4FD8-A999-B5A5F0A7168A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paganod.API.Client", "Paganod.API.Client\Paganod.API.Client.csproj", "{CD867F40-AFA0-44BA-8C82-2B9CF922D143}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{146F3751-6F05-4B48-ABE5-CF6104324519}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{146F3751-6F05-4B48-ABE5-CF6104324519}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{146F3751-6F05-4B48-ABE5-CF6104324519}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{146F3751-6F05-4B48-ABE5-CF6104324519}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214751DA-4A93-48D4-8833-CBA52AE2463B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214751DA-4A93-48D4-8833-CBA52AE2463B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214751DA-4A93-48D4-8833-CBA52AE2463B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214751DA-4A93-48D4-8833-CBA52AE2463B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93C6AB08-AA63-4F42-9D66-E3F4F5172BCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93C6AB08-AA63-4F42-9D66-E3F4F5172BCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93C6AB08-AA63-4F42-9D66-E3F4F5172BCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93C6AB08-AA63-4F42-9D66-E3F4F5172BCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04B2A4DE-6D81-4FD8-A999-B5A5F0A7168A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04B2A4DE-6D81-4FD8-A999-B5A5F0A7168A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04B2A4DE-6D81-4FD8-A999-B5A5F0A7168A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04B2A4DE-6D81-4FD8-A999-B5A5F0A7168A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD867F40-AFA0-44BA-8C82-2B9CF922D143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD867F40-AFA0-44BA-8C82-2B9CF922D143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD867F40-AFA0-44BA-8C82-2B9CF922D143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD867F40-AFA0-44BA-8C82-2B9CF922D143}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{146F3751-6F05-4B48-ABE5-CF6104324519} = {9BED2D2B-7F03-4BDC-BBB4-30BAA5F5A8B0}
+		{214751DA-4A93-48D4-8833-CBA52AE2463B} = {46648CDB-F068-4B0A-9D02-BA96A2A5992A}
+		{93C6AB08-AA63-4F42-9D66-E3F4F5172BCC} = {D09B9DAB-A79C-4D42-B60F-9932889B1369}
+		{04B2A4DE-6D81-4FD8-A999-B5A5F0A7168A} = {9BED2D2B-7F03-4BDC-BBB4-30BAA5F5A8B0}
+		{CD867F40-AFA0-44BA-8C82-2B9CF922D143} = {D09B9DAB-A79C-4D42-B60F-9932889B1369}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F5BF2D01-A14F-40C1-8350-E08FDCAA9B07}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\Endpoints\Delete\" />
+    <Folder Include="Features\Records\Delete\" />
+    <Folder Include="Features\Records\Get\" />
+    <Folder Include="Features\Schema\Delete\" />
+    <Folder Include="Features\Schema\GetAll\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Paganod.Shared\Paganod.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
