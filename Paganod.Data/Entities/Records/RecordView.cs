@@ -18,6 +18,8 @@ namespace Paganod.Data.Entities
         public string Name { get; set; }
         public string QueryAsString { get; set; }
 
+        public RecordView() { }
+
         public RecordView(Guid lngSchemaModelId, string strName, ODataQuery oQuery = null)
         {
             SchemaModelId = lngSchemaModelId;

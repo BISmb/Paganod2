@@ -16,6 +16,11 @@ namespace Paganod.Application.Features.Records.Get
     public class QueryRecordsRequest : IRequest<Result<QueryRecordsResponse>>
     {
         public ODataQuery Query { get; set; }
+
+        public QueryRecordsRequest(ODataQuery query)
+        {
+            Query = query;
+        }
     }
 
     public class QueryRecordsRequestHandler : IRequestHandler<QueryRecordsRequest, Result<QueryRecordsResponse>>
@@ -23,10 +28,10 @@ namespace Paganod.Application.Features.Records.Get
         private readonly IMapper _mapper;
         private readonly PaganodContext _dbContext;
 
-        public QueryRecordsRequestHandler(PaganodContext dbContext, IMapper mapper)
+        public QueryRecordsRequestHandler(PaganodContext dbContext/*, IMapper mapper*/)
         {
             _dbContext = dbContext;
-            _mapper = mapper;
+            //_mapper = mapper;
         }
 
         public Task<Result<QueryRecordsResponse>> Handle(QueryRecordsRequest request, CancellationToken cancellationToken)

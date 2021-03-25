@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNet.OData;
+﻿using MediatR;
+using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NSwag.Annotations;
+using Paganod.Application.Features.Records.Get;
 using Paganod.Data.Context;
 using Paganod.Shared.Type;
 using Paganod.Shared.Type.Query;
@@ -19,10 +21,12 @@ namespace Paganod.API.Controllers
     public class RecordsController : ODataController
     {
         private PaganodContext _dbContext;
+        private IMediator _mediator;
 
-        public RecordsController(PaganodContext dbContext)
+        public RecordsController(PaganodContext dbContext, IMediator mediator)
         {
             _dbContext = dbContext;
+            _mediator = mediator;
 
             _dbContext.SchemaModels.Add(new Data.Entities.SchemaModel()); //Construct valid entity
             _dbContext.SaveChanges();
@@ -33,7 +37,7 @@ namespace Paganod.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("/odata/{TableDbName}", Order = 0)]
-        public IActionResult Get([FromRoute] string TableDbName)
+        public async Task<IActionResult> GetAsync([FromRoute] string TableDbName)
         {
             // get odata parameters
             Dictionary<string, string> oDataQueryParams = new();
@@ -42,10 +46,19 @@ namespace Paganod.API.Controllers
                 oDataQueryParams = Request.Query.Where(x => x.Key.StartsWith("$")).ToDictionary(x => x.Key, x => x.Value.ToString());
 
             ODataQuery query = new ODataQuery(TableDbName, oDataQueryParams);
+            QueryRecordsRequest request = new QueryRecordsRequest(query);
 
             // create query handler and run
-
-            return Ok("Ok");
+            try
+            {
+                var results = await _mediator.Send(request);
+                return Ok(results);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+                //throw;
+            }
         }
 
         /// <summary>

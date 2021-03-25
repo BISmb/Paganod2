@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNet.OData.Builder;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Routing;
@@ -46,6 +47,8 @@ namespace Paganod.API
             {
 
             });
+
+            services.AddMediatR(typeof(Paganod.Application.Mapping.RecordProfile).Assembly);
 
             services.AddOData();
 
@@ -118,9 +121,14 @@ namespace Paganod.API
     {
         public override Microsoft.AspNet.OData.Routing.ODataPath Parse(string serviceRoot, string odataPath, IServiceProvider requestContainer)
         {
-            var response =  base.Parse(serviceRoot, odataPath, requestContainer);
+            string[] entityToReplace = new string[]
+            {
 
-            if (odataPath.Contains("transactions")) odataPath = odataPath.Replace("transactions", "records");
+            };
+
+            if (odataPath.Contains("schemamodels")) odataPath = odataPath.Replace("schemamodels", "records");
+
+            var response =  base.Parse(serviceRoot, odataPath, requestContainer);
 
             return response;
         }

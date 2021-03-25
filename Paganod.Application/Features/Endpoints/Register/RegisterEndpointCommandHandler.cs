@@ -15,10 +15,10 @@ namespace Paganod.Application.Features.Endpoints.Register
         private readonly IMapper _mapper;
         //private readonly IUnitOfWork _unitOfWork;
 
-        public RegisterEndpointCommandHandler(/*IUnitOfWork unitOfWork,*/ IMapper mapper)
+        public RegisterEndpointCommandHandler(/*IUnitOfWork unitOfWork, IMapper mapper*/)
         {
             //_unitOfWork = unitOfWork;
-            _mapper = mapper;
+            //_mapper = mapper;
         }
 
         public async Task<Result<int>> Handle(RegisterEndpointCommand command, CancellationToken cancellationToken)
