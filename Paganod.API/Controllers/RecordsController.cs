@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using NSwag.Annotations;
+using Paganod.Data.Context;
+using Paganod.Shared.Type;
+using Paganod.Shared.Type.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +12,41 @@ using System.Threading.Tasks;
 
 namespace Paganod.API.Controllers
 {
-    [OpenApiController("Records")]
-    [ApiController]
-    public class RecordsController : ControllerBase
+    //[ApiController]
+    //[Route("[controller]")]
+    //[Route("Transactions")]
+    [FromODataUri(Name = "transactions")]
+    public class RecordsController : ODataController
     {
-        //public RecordsController(RecordService recordService)
-        //    : base(recordService) { }
+        private PaganodContext _dbContext;
+
+        public RecordsController(PaganodContext dbContext)
+        {
+            _dbContext = dbContext;
+
+            _dbContext.SchemaModels.Add(new Data.Entities.SchemaModel()); //Construct valid entity
+            _dbContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// Run an OData Query of the form: /odata/transaction?$filter=TransactionId eq 5
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/odata/{TableDbName}", Order = 0)]
+        public IActionResult Get([FromRoute] string TableDbName)
+        {
+            // get odata parameters
+            Dictionary<string, string> oDataQueryParams = new();
+            
+            if(Request.Query.Count > 0)
+                oDataQueryParams = Request.Query.Where(x => x.Key.StartsWith("$")).ToDictionary(x => x.Key, x => x.Value.ToString());
+
+            ODataQuery query = new ODataQuery(TableDbName, oDataQueryParams);
+
+            // create query handler and run
+
+            return Ok("Ok");
+        }
 
         /// <summary>
         /// Get a record with @Id from @TableName
@@ -21,7 +55,7 @@ namespace Paganod.API.Controllers
         /// <param name="TableName">The Table Name to retrieve the record from</param>
         /// <param name="Id">The Id of the record to retrieve</param>
         /// <returns>A record in json format</returns>
-        [HttpGet("/{TableName}/{Id}", Name = nameof(GetRecordAsync))]
+        [HttpGet("/{TableName}/{Id}", Name = nameof(GetRecordAsync), Order = 1)]
         public async Task<IActionResult> GetRecordAsync([FromRoute] string TableName, [FromRoute] Guid Id)
         {
             return Ok();
@@ -62,5 +96,76 @@ namespace Paganod.API.Controllers
         {
             return Ok();
         }
+
+
+
+
+
+
+        //    private static readonly string[] Summaries = new[]
+        //    {
+        //        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        //    };
+
+        //    private readonly ILogger<RecordsController> _logger;
+        //    private PaganodContext _db;
+
+        //    public RecordsController(ILogger<RecordsController> logger, PaganodContext context)
+        //    {
+        //        _logger = logger;
+
+        //        _db = context;
+        //        if (context.Forecasts.Count() == 0)
+        //        {
+        //            for (int i = 1; i < 5; i++)
+        //            {
+        //                context.Forecasts.Add(new WeatherForecast()
+        //                {
+        //                    Id = i,
+        //                    Date = DateTime.Now.AddDays(i),
+        //                    Summary = "stuff",
+        //                });
+        //            }
+
+        //            context.SaveChanges();
+        //        }
+        //    }
+
+        //public IActionResult Get()
+        //{
+        //    // get last element and use as the "TableName"
+        //    string strTableName = Request.Path.Value.Substring(Request.Path.Value.LastIndexOf("/") + 1);
+
+        //    // if parameters are in path (and they could contain "/" characters, this will only get the last element in the path
+        //    if (Request.Path.Value.Contains("?"))
+        //    {
+        //        int firstParamIndex = Request.Path.Value.IndexOf("?");
+        //        string pathNoParams = Request.Path.Value.Substring(0, Request.Path.Value.Length - firstParamIndex);
+        //        strTableName = pathNoParams.Substring(pathNoParams.LastIndexOf("/"));
+        //    }
+
+        //    // This will put the query params in a dictionary, and the "$" will be passed to odata sql
+        //    Dictionary<string, string> oDataQueryParams = Request.Query
+        //                                                    .Where(x => x.Key.StartsWith("$"))
+        //                                                    .ToDictionary(x => x.Key, x => x.Value.ToString());
+
+        //    return Ok("Ok");
+        //}
+
+        //    [EnableQuery]
+        //    public IActionResult Get(int key)
+        //    {
+        //        var rng = new Random();
+        //        var rangee = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        //        {
+        //            Date = DateTime.Now.AddDays(index),
+        //            TemperatureC = rng.Next(-20, 55),
+        //            Summary = Summaries[rng.Next(Summaries.Length)]
+        //        })
+        //        .ToArray();
+        //        Guid guid = Guid.NewGuid();
+        //        return Ok(rangee.First(x => x.Id == key));
+        //    }
+        //}
     }
 }

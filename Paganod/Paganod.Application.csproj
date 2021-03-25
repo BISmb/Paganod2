@@ -7,9 +7,9 @@
   <ItemGroup>
     <Folder Include="Features\Endpoints\Delete\" />
     <Folder Include="Features\Records\Delete\" />
-    <Folder Include="Features\Records\Get\" />
     <Folder Include="Features\Schema\Delete\" />
     <Folder Include="Features\Schema\GetAll\" />
+    <Folder Include="Services\Workflow\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Paganod.Data\Paganod.Data.csproj" />
     <ProjectReference Include="..\Paganod.Shared\Paganod.Shared.csproj" />
   </ItemGroup>
 

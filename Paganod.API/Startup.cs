@@ -16,8 +16,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OData.Edm;
 using Microsoft.OData.UriParser;
-using Paganod.Data.Database;
+using Paganod.Data;
+using Paganod.Data.Context;
 using Paganod.Shared.Type;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,7 +40,7 @@ namespace Paganod.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PaganodContext>(opt => opt.UseInMemoryDatabase("BookLists"));
+            services.AddPaganodDatabase();
 
             services.AddControllers(config =>
             {
@@ -72,7 +74,7 @@ namespace Paganod.API
             var builder = new ODataConventionModelBuilder(app.ApplicationServices);
 
             builder.EntitySet<WeatherForecast>(nameof(PaganodContext.Forecasts)).EntityType.HasKey(entity => entity.Id);
-            builder.EntitySet<Record>("Transactions").EntityType.HasKey(entity => entity.Id);
+            //builder.EntitySet<Record>("Transactions").EntityType.HasKey(entity => entity.Id);
 
             app.UseEndpoints(endpoints =>
             {
@@ -87,7 +89,7 @@ namespace Paganod.API
                 // Insert the custom convention at the start of the collection.
                 //conventions.Insert(0, new NavigationIndexRoutingConvention());
 
-                endpoints.MapODataRoute("ODataRoute", "odata", builder.GetEdmModel(), new MyODataParser(), conventions);
+                endpoints.MapODataRoute("ODataRoute", "odata", GetEdmModel(), new MyODataParser(), conventions);
 
                 // Work-around for #1175
                 endpoints.EnableDependencyInjection();
@@ -102,12 +104,11 @@ namespace Paganod.API
         {
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
 
-            var entitySet = builder.EntitySet<WeatherForecast>(nameof(PaganodContext.Forecasts));
+            var entitySet = builder.EntitySet<Record>("Records");
             entitySet.EntityType.HasKey(entity => entity.Id);
 
-
-            //var entitySet2 = builder.EntitySet<Record>("Transactions");
-            //entitySet2.EntityType.HasKey(entity => entity.Id);
+            var entitySet2 = builder.EntitySet<Record>("Transactions");
+            entitySet2.EntityType.HasKey(entity => entity.Id);
 
             return builder.GetEdmModel();
         }
@@ -117,9 +118,11 @@ namespace Paganod.API
     {
         public override Microsoft.AspNet.OData.Routing.ODataPath Parse(string serviceRoot, string odataPath, IServiceProvider requestContainer)
         {
-            if (odataPath.Contains("transactions")) odataPath = odataPath.Replace("transactions", "forecasts");
+            var response =  base.Parse(serviceRoot, odataPath, requestContainer);
 
-            return base.Parse(serviceRoot, odataPath, requestContainer);
+            if (odataPath.Contains("transactions")) odataPath = odataPath.Replace("transactions", "records");
+
+            return response;
         }
     }
 }
